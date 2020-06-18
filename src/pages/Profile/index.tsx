@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
@@ -70,7 +71,7 @@ const SignUp: React.FC = () => {
               then: Yup.string().required('Campo obrigatório'),
               otherwise: Yup.string(),
             })
-            .oneOf([Yup.ref('password'), null], 'Confirmação incorreta'),
+            .oneOf([Yup.ref('password'), undefined], 'Confirmação incorreta'),
         });
 
         await schema.validate(data, {
@@ -125,8 +126,6 @@ const SignUp: React.FC = () => {
         chooseFromLibraryButtonTitle: 'Escolher da galeria',
       },
       (response) => {
-        // console.log(response);
-
         if (response.didCancel) {
           return;
         }
@@ -145,7 +144,7 @@ const SignUp: React.FC = () => {
         });
 
         api.patch('/users/avatar', data).then((rep) => {
-          updateUser(rep);
+          updateUser(rep.data);
         });
       },
     );
