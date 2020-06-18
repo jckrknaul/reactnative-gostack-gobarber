@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+
 import {
   Container,
   Header,
@@ -16,6 +17,7 @@ import {
   ProviderMeta,
   ProviderMetaText,
   ProvidersListTitle,
+  LogoutButton,
 } from './styles';
 
 import { useAuth } from '../../hooks/auth';
@@ -40,7 +42,10 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const navigateProfile = useCallback(() => {
-    // navigate('Profile');
+    navigate('Profile');
+  }, [navigate]);
+
+  const Logout = useCallback(() => {
     signOut();
   }, [signOut]);
 
@@ -58,6 +63,10 @@ const Dashboard: React.FC = () => {
           Bem vindo, {'\n'}
           <UserName>{user.name}</UserName>
         </HeaderTitle>
+
+        <LogoutButton onPress={Logout}>
+          <HeaderTitle>Sair</HeaderTitle>
+        </LogoutButton>
 
         <ProfileButton onPress={navigateProfile}>
           <UserAvatar source={{ uri: user.avatar_url }} />
